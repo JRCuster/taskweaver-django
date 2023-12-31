@@ -1,0 +1,17 @@
+body {
+  font-family: Arial, sans-serif;
+}
+
+h1 {
+  text-align: center;
+}
+
+form {
+  width: 80%;
+  margin: 0 auto;
+}
+
+input[type="submit"] {
+  display: block;
+  margin: 20px auto;
+}

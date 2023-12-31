@@ -1,0 +1,66 @@
+version: '3.8'
+
+services:
+  pihole:
+    container_name: pihole
+    image: pihole/pihole:latest
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "67:67/udp"
+      - "80:80/tcp"
+      - "443:443/tcp"
+    environment:
+      TZ: 'America/Chicago'
+      WEBPASSWORD: '@dmin2846'
+    volumes:
+      - './etc-pihole/:/etc/pihole/'
+      - './etc-dnsmasq.d/:/etc/dnsmasq.d/'
+    restart: unless-stopped
+    networks:
+      - default
+
+  homeassistant:
+    container_name: homeassistant
+    image: homeassistant/home-assistant:stable
+    volumes:
+      - './HA-config/:/config'
+    environment:
+      TZ: 'America/Chicago'
+    ports:
+      - "8123:8123"
+    restart: unless-stopped
+    networks:
+      - default
+
+  anythingllm:
+    container_name: anythingllm
+    image: mintplexlabs/anythingllm
+    ports:
+      - "5000:5000" # Replace with the actual ports if different
+    environment:
+      # Define environment variables here if needed
+    volumes:
+      - './Allm-config/:/app/config' # Replace with actual volume mappings
+    restart: unless-stopped
+
+  ollama-webui:
+    container_name: ollama-webui
+    build:
+      context: .
+      dockerfile: Dockerfile.1 # Ensure the Dockerfile is in the same directory as docker-compose.yml
+    ports:
+      - "3000:8080"
+    volumes:
+      - 'ollama-webui:/app/backend/data'
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: always
+
+volumes:
+  ollama-webui:
+    name: ollama-webui
+networks:
+  default:
+    external:
+      name: bridge
