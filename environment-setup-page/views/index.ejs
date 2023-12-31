@@ -6,10 +6,22 @@
   <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-  <h1>Environment Setup</h1>
+  <h1>Docker Environment Setup</h1>
   <form action="/generate" method="post">
-    <!-- Form inputs for environment variables will go here -->
+    <label for="serviceName">Service Name:</label>
+    <input type="text" id="serviceName" name="serviceName" required>
+    
+    <label for="imageName">Image Name:</label>
+    <input type="text" id="imageName" name="imageName" required>
+    
+    <label for="port">Port Mapping:</label>
+    <input type="text" id="port" name="port" placeholder="e.g., 80:80" required>
+    
+    <label for="envVar">Environment Variable:</label>
+    <input type="text" id="envVar" name="envVar" placeholder="e.g., NODE_ENV=production">
+    
     <input type="submit" value="Generate Configuration">
+  </form>
   </form>
 </body>
 </html>
